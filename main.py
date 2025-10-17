@@ -1,7 +1,7 @@
 import random
 import string
 
-# nested dictionaries for each locker within the the set of lockers
+# nested dictionaries for each locker within the set of lockers
 locker1 = {
     # tells if locker is available (True) or not (False)
     "Available" : False,
@@ -46,18 +46,12 @@ def rent_locker():
     for locker_number, locker in lockers.items():
         # if available, rent locker
         if locker["Available"]:
-            # print statements for testing
-            print(lockers[locker_number]["Key"])
-            print(lockers[locker_number]["Available"])
             # create a key for renting locker
             key = generate_key()
             # assign key to the renting locker
             lockers[locker_number]["Key"] = key
             # mark locker as no longer available
             locker["Available"] = False
-            # print statements for testing
-            print(lockers[locker_number]["Key"])
-            print(lockers[locker_number]["Available"])
             # return the key and locker number
             return f"Locker {locker_number} rented successfully. Your key is {key}."
         # if locker in lockers.items() is not available -- continue searching
@@ -65,14 +59,30 @@ def rent_locker():
             continue
         # next -- make a conditional statement for if all lockers are taken / not available    
         
+# function to for customer to access locker being rented
+def access_locker():
+    # get the locker number from the customer
+    print("Enter your locker number: (eg.: 1, 2, ..., n): ")
+    locker_number = input()
+    # ask for the key/pin code for the locker to access it
+    print(f"You entered \"Locker {locker_number}\". Please enter the pin code for your locker: ")
+    customer_key = input()
+    # check that the key the customer gave is correct
+    if customer_key != lockers[locker_number]["Key"]:
+        return "The pin you entered is incorrect. Try again."
+    elif customer_key == lockers[locker_number]["Key"]:
+        return "You can access your locker!"
+    else:
+        return "There was an error with place_items."
+        
 # function for putting items in locker
-def place_items(key_given, locker_number):
+def place_items():
     # if key_given is equal to key for specific locker -- continue with item logic
     # if key_given is not the same as key for specific locker -- give three chances and then lock continued attempts
     pass
     
 # function for returning locker and retrieving items
-def locker_return(key, locker_number):
+def locker_return():
     # if key_given is equal to key for specific locker -- continue with returning locker and item retrieval logic
     # if key_given is not the same as key for specific locker -- give three chances and then lock continued attempts
     pass
@@ -81,3 +91,5 @@ def locker_return(key, locker_number):
 if __name__ == '__main__':
     # test renting a locker
     print(rent_locker())
+    # testing accessing a locker
+    print(access_locker())
