@@ -18,7 +18,7 @@ locker2 = {
 locker3 = {
     "Available" : True,
     "Key": None,
-    "Items" : ["wallet, phone"]
+    "Items" : []
 }
 
 locker4 = {
@@ -73,13 +73,27 @@ def access_locker():
     elif customer_key == lockers[locker_number]["Key"]:
         return "You can access your locker!"
     else:
-        return "There was an error with place_items."
+        return "There was an error with access_locker."
         
 # function for putting items in locker
 def place_items():
-    # if key_given is equal to key for specific locker -- continue with item logic
-    # if key_given is not the same as key for specific locker -- give three chances and then lock continued attempts
-    pass
+    while(1):
+        # ask if user would like to place an item in their locker
+        print("Would you like put an item in your locker? (Y/y or N/n)")
+        answer = input()
+        # if yes, ask for item and add it to locker
+        if (answer == 'y' or answer == 'Y'):
+            print("What item would you like to place in your locker?")
+            item = input()
+            lockers["2"]["Items"].append(item)
+            # print item(s) in locker
+            print(f"In locker 2 items: {lockers["2"]["Items"]}")
+        # if no -- break from while loop
+        elif (answer == 'n' or answer == 'n'):
+            break
+        # there was an issue with user input
+        else:
+            print("There is an issue with your answer. Please type 'y' for yes or 'n' for no.")
     
 # function for returning locker and retrieving items
 def locker_return():
@@ -93,3 +107,5 @@ if __name__ == '__main__':
     print(rent_locker())
     # testing accessing a locker
     print(access_locker())
+    # testing place_items
+    place_items()
