@@ -75,25 +75,51 @@ def access_locker():
     else:
         return "There was an error with access_locker."
         
-# function for putting items in locker
+# function for putting item(s) in locker
 def place_items():
     while(1):
         # ask if user would like to place an item in their locker
         print("Would you like put an item in your locker? (Y/y or N/n)")
         answer = input()
         # if yes, ask for item and add it to locker
-        if (answer == 'y' or answer == 'Y'):
+        if answer.lower() == 'y':
             print("What item would you like to place in your locker?")
             item = input()
             lockers["2"]["Items"].append(item)
             # print item(s) in locker
             print(f"In locker 2 items: {lockers["2"]["Items"]}")
         # if no -- break from while loop
-        elif (answer == 'n' or answer == 'n'):
+        elif answer.lower() == 'n':
             break
         # there was an issue with user input
         else:
-            print("There is an issue with your answer. Please type 'y' for yes or 'n' for no.")
+            print("User Input Error. Please type 'y' for yes or 'n' for no.")
+            
+# remove item(s) from locker
+def remove_items():
+    while(1):
+        #ask if user would like to remove an item from their locker
+        print("Would you like to remove an item from your locker? (y or n)")
+        answer = input()
+        # if yes, ask for item name
+        if answer.lower() == 'y':
+            print(f"These are the items in your locker: {lockers["2"]["Items"]}")
+            print("What item would you like to remove from your locker?")
+            item = input()
+            # scan locker for matching item
+            # if match -- remove item
+            if item in lockers["2"]["Items"]:
+                lockers["2"]["Items"].remove(item)
+            # if item not found -- change nothing
+            else:
+                print("Item not found in locker.")
+            print(f"Your items are now: {lockers["2"]["Items"]}")
+        # if no, exit loop
+        elif answer.lower() == 'n':
+            break
+        # else - incorrect input, try again
+        else:
+            print("User Input Error. Please type 'y' for yes or 'n' for no.")
     
 # function for returning locker and retrieving items
 def locker_return():
@@ -109,3 +135,5 @@ if __name__ == '__main__':
     print(access_locker())
     # testing place_items
     place_items()
+    # testing remove_items
+    remove_items()
