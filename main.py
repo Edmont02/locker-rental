@@ -123,17 +123,44 @@ def remove_items():
     
 # function for returning locker and retrieving items
 def locker_return():
-    # if key_given is equal to key for specific locker -- continue with returning locker and item retrieval logic
-    # if key_given is not the same as key for specific locker -- give three chances and then lock continued attempts
-    pass
+    while(1):
+        print("Are you ready to return your locker? (y or n)")
+        answer = input()
+        if (answer.lower() == 'y'):
+            # logic for returning locker and retrieving items
+            print(lockers['2'])
+            print("Type r to retrieve your items and return your locker.")
+            answer = input()
+            if (answer.lower() == 'r'):
+                lockers['2']['Items'] = []
+                print("Items retrieved successfully.")
+                lockers['2']['Available'] = True
+                lockers['2']['Key'] = None
+                print("Locker returned successfully.")
+                print(lockers['2'])
+                break
+            else:
+                print("Item retrieval cancelled.")
+                break
+        elif (answer.lower() == 'n'):
+            print("Locker return cancelled.")
+            break
+        else:
+            ("User Input Error. Please type 'y' for yes or 'n' for no.")
 
 # main function for user interaction
 if __name__ == '__main__':
     # test renting a locker
     print(rent_locker())
+    
     # testing accessing a locker
     print(access_locker())
+    
     # testing place_items
     place_items()
+    
     # testing remove_items
-    remove_items()
+    # remove_items()
+    
+    # testing locker_return
+    locker_return()
