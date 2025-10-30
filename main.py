@@ -40,26 +40,40 @@ def generate_key():
 
 # function for renting a locker
 def rent_locker():
-    # search for available lockers
-    available_lockers = [locker_number for locker_number, locker in lockers.items() if locker["Available"]]
-    print(f"These are the available lockers: {available_lockers}")
-    # ask which locker to rent
-    print(f"Which locker would you like to rent?")
-    locker_number = input()
-    # check if locker is available to rent
-    if lockers[locker_number]["Available"] == True and locker_number in available_lockers:
-        # create a key for renting locker
-        key = generate_key()
-        # assign key to the renting locker
-        lockers[locker_number]["Key"] = key
-        # mark locker as no longer available
-        lockers[locker_number]["Available"] = False
-        # return the key and locker number
-        return f"Locker {locker_number} rented successfully. Your key is {key}."
-    # if locker in lockers.items() is not available
-    elif lockers[locker_number]["Available"] == False and locker_number in available_lockers:
-        return f"Locker {locker_number} is not available. Please choose another locker."
+    while(True):
+        # search for available lockers
+        available_lockers = [locker_number for locker_number, locker in lockers.items() if locker["Available"]]
+        print(f"These are the available lockers: {available_lockers}")
+        print(f"Which locker would you like to rent? If you would like to cancel, type '0'.")
+        locker_number = input()
+        # check if user wants to cancel rental
+        if locker_number == '0':
+            return "Locker rental cancelled."
         
+        # check if locker exists
+        if locker_number not in lockers:
+            print(f"Locker {locker_number} does not exist. Please choose an valid locker number.")
+            continue
+        
+        # check if locker is available to rent
+        if locker_number in available_lockers:
+            # create a key for renting locker
+            key = generate_key()
+            # assign key to the renting locker
+            lockers[locker_number]["Key"] = key
+            # mark locker as no longer available
+            lockers[locker_number]["Available"] = False
+            # return the key and locker number
+            return f"Locker {locker_number} rented successfully. Your key is {key}."
+        else:
+            print(f"Locker {locker_number} is not available. Please choose another locker.")
+            print("Would you like to try again? (Y/y or N/n)")
+            answer = input()
+            if answer.lower() == 'y':
+                continue
+            elif answer.lower() == 'n':
+                return "Locker rental cancelled."
+    
 # function for customer to access locker being rented
 def access_locker():
     # get the locker number from the customer
@@ -124,31 +138,55 @@ def remove_items():
     
 # function for returning locker and retrieving items
 def locker_return():
-    while(1):
-        print("Are you ready to return your locker? (y or n)")
-        answer = input()
-        if (answer.lower() == 'y'):
-            # logic for returning locker and retrieving items
-            print(lockers['2'])
-            print("Type r to retrieve your items and return your locker.")
+    while(True):
+        print("Please enter your locker number. If you would like to cancel, press '0': ")
+        locker_number = input()
+        
+        # check if user wants to cancel return
+        if locker_number == '0':
+            return "Locker return cancelled."
+        
+        # check if locker exists
+        if locker_number not in lockers:
+            print("Invalid locker number. Please try again.")
+            continue
+        
+        # check if locker is being rented
+        elif lockers[locker_number]['Available']:
+            print("This locker is not in use. Please check your locker number and try again.")
+            continue
+        
+        print(f"Your locker number is {locker_number}.")
+        print("Please enter your key: ")
+        customer_key = input()
+        
+        # check that the key the customer gave is correct
+        if customer_key != lockers[locker_number]['Key']:
+            print("The key you entered is incorrect.")
+            print("Would you like to try again? (Y/y or N/n)")
+            answer = input()
+            if answer.lower() == 'y':
+                continue
+            elif answer.lower() == 'n':
+                return "Locker return cancelled."
+            
+        else:
+            print("Key accepted.")
+            print("You may retrieve your items now.")
+            print(f"Your items are: {lockers[locker_number]['Items']}")
+            print("Type 'R' to retrieve your items and return the locker.")
             answer = input()
             if (answer.lower() == 'r'):
-                lockers['2']['Items'] = []
+                lockers[locker_number]['Items'] = []
                 print("Items retrieved successfully.")
-                lockers['2']['Available'] = True
-                lockers['2']['Key'] = None
-                print("Locker returned successfully.")
-                print(lockers['2'])
-                break
+                lockers[locker_number]['Available'] = True
+                lockers[locker_number]['Key'] = None
+                # show confirmation of locker returned
+                print(lockers[locker_number])
+                return "Locker returned successfully."
             else:
-                print("Item retrieval cancelled.")
-                break
-        elif (answer.lower() == 'n'):
-            print("Locker return cancelled.")
-            break
-        else:
-            ("User Input Error. Please type 'y' for yes or 'n' for no.")
-
+                return "Item retrieval cancelled."
+        
 # main function for user interaction
 if __name__ == '__main__':
     # # test renting a locker
@@ -200,7 +238,7 @@ if __name__ == '__main__':
             elif option == "4":
                 print("Under development.")
             elif option == "5":
-                print("Under development.")
+                print(locker_return())
             elif option == "6":
                 print("Thank you for using the Locker Rental System. Goodbye!")
                 break
