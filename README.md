@@ -11,4 +11,4 @@ Let's break this project down a bit. Here are the anticipated project requiremen
 7. Could keep track of time and rent lockers for a period of time (15 minutes, 30 minutes, 1hr, 2hr, etc.,) -- if the timer runs out -- items are put in lost and found and locker becomes available to rent again and key is reset to None
 8. If #7 is implemented -- empty out lost and found every shift (if it is rented for an event -- at the end of the shift for the day it would be emptied for example)
 
-I'm going to try to have this project completed by or around November 1st, 2025. Stay tuned for more updates!
+Work for this has been paused until further notice -- Stay tuned for more updates!
